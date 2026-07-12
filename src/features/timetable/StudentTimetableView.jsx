@@ -1,0 +1,77 @@
+import { useSelector } from "react-redux";
+import { CalendarClock, Loader2, AlertTriangle } from "lucide-react";
+import DashboardLayout from "../../components/layout/DashboardLayout";
+import PageHeader from "../../components/ui/PageHeader";
+import { useGetTimetableBySectionQuery } from "./timetableApi";
+
+const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+const accents = ["bg-marigold-soft text-marigold", "bg-teal-soft text-teal", "bg-coral-soft text-coral", "bg-slate-100 text-slate-600"];
+
+// Read-only "my class's timetable" - Student ka apna sectionId login/checkAuth
+// response se pehle se milta hai, isliye koi dropdown/selection ki zaroorat
+// nahi - seedha unki apni section ka poora hafta dikh jaata hai.
+function StudentTimetableView() {
+  const { user } = useSelector((state) => state.auth);
+  const sectionId = user?.profile?.sectionId?._id;
+
+  const { data, isLoading, isError, error } = useGetTimetableBySectionQuery(sectionId, { skip: !sectionId });
+
+  const periodsByDay = days.reduce((acc, day) => {
+    acc[day] = (data?.data || []).filter((p) => p.dayOfWeek === day);
+    return acc;
+  }, {});
+
+  return (
+    <DashboardLayout>
+      <PageHeader
+        title="My Timetable"
+        breadcrumb={`Dashboard / Timetable${user?.profile?.sectionId?.name ? ` / ${user.profile.sectionId.name}` : ""}`}
+      />
+
+      {isLoading && (
+        <div className="flex items-center justify-center py-20 text-slate-400">
+          <Loader2 className="animate-spin mr-2" size={20} /> Loading timetable...
+        </div>
+      )}
+
+      {isError && (
+        <div className="flex flex-col items-center justify-center py-20 text-coral gap-2">
+          <AlertTriangle size={28} />
+          <p className="text-sm">{error?.data?.message || "Failed to load timetable"}</p>
+        </div>
+      )}
+
+      {!isLoading && !isError && (
+        <div className="overflow-x-auto pb-2">
+          <div className="grid grid-cols-6 gap-3 min-w-[900px]">
+            {days.map((day) => (
+              <div key={day}>
+                <p className="text-sm font-display font-semibold text-ink mb-2 text-center">{day}</p>
+                <div className="space-y-2">
+                  {periodsByDay[day].length === 0 && (
+                    <p className="text-[11px] text-slate-300 text-center py-4">No periods</p>
+                  )}
+                  {periodsByDay[day].map((period, i) => (
+                    <div key={period._id} className={`rounded-xl p-3 ${accents[i % accents.length]}`}>
+                      <p className="text-[11px] font-mono opacity-70 mb-1">{period.startTime}–{period.endTime}</p>
+                      <p className="text-sm font-semibold">{period.subjectId?.name}</p>
+                      <p className="text-xs opacity-70">{period.teacherId?.name}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+          {(data?.data || []).length === 0 && (
+            <p className="text-center text-sm text-slate-400 py-10">
+              <CalendarClock className="mx-auto mb-2 text-slate-300" size={24} />
+              No periods scheduled yet.
+            </p>
+          )}
+        </div>
+      )}
+    </DashboardLayout>
+  );
+}
+
+export default StudentTimetableView;
