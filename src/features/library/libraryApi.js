@@ -15,6 +15,13 @@ export const libraryApi = apiSlice.injectEndpoints({
       query: (body) => ({ url: "/books", method: "POST", body }),
       invalidatesTags: [{ type: "Book", id: "LIST" }],
     }),
+    // Matches backend: PUT /api/books/:id { title, author, category }
+    // Sirf title/author/category edit hote hain - totalCopies "Add Copies"
+    // se, aur isbn kabhi change nahi hota (unique identifier hai)
+    updateBook: builder.mutation({
+      query: ({ id, ...body }) => ({ url: `/books/${id}`, method: "PUT", body }),
+      invalidatesTags: [{ type: "Book", id: "LIST" }],
+    }),
     // Matches backend: PATCH /api/books/:id/add-copies { count }
     // Existing book ki stock badhane ke liye (naye copies shelf pe aaye)
     addBookCopies: builder.mutation({
@@ -53,6 +60,7 @@ export const libraryApi = apiSlice.injectEndpoints({
 export const {
   useGetBooksQuery,
   useCreateBookMutation,
+  useUpdateBookMutation,
   useAddBookCopiesMutation,
   useDeleteBookMutation,
   useIssueBookMutation,

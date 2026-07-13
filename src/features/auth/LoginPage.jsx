@@ -8,11 +8,12 @@ import schoolLogo from "../../assets/school-logo.png";
 import heroImage from "../../assets/hero.png";
 
 const roleRedirect = { admin: "/admin", teacher: "/teacher", student: "/student" };
+const roleLabel = { admin: "Admin", teacher: "Teacher", student: "Student" };
 
-// Yeh tabs sirf UI/UX ke liye hain (jaise "kis role se login kar rahe ho"
-// dikhana) - backend email/password se hi role decide kar deta hai, isliye
-// tab select karna login ko block/gate NAHI karta. Sirf icon/heading change
-// hota hai taaki experience thoda personalized lage.
+// FEATURE: yeh tabs ab FUNCTIONAL hain - jo tab select hai, sirf usi role
+// ka account us se login kar payega. Agar "Admin" select hai aur Teacher/
+// Student ke credentials daale jaayein, to login reject ho jaata hai
+// (neeche handleSubmit dekhein).
 const roleTabs = [
   { key: "admin", label: "Admin", icon: ShieldCheck },
   { key: "teacher", label: "Teacher", icon: User },
@@ -33,6 +34,18 @@ function LoginPage() {
     e.preventDefault();
     try {
       const user = await dispatch(loginUser({ email, password })).unwrap();
+
+      // FEATURE: role-gate - backend email/password se authenticate to kar
+      // deta hai, lekin agar account ka asli role selected TAB se match
+      // nahi karta, to hum login rok ke bata dete hain ki galat tab select
+      // hai (session logout NAHI karte, sirf flash message dikhate hain)
+      if (user.role !== activeTab) {
+        toast.error(
+          `This account is registered as a ${roleLabel[user.role] || user.role}, not ${roleLabel[activeTab]}. Please select the correct tab.`
+        );
+        return;
+      }
+
       toast.success(`Welcome back, ${user.name}!`);
       navigate(roleRedirect[user.role] || "/");
     } catch (errMessage) {
@@ -67,7 +80,7 @@ function LoginPage() {
             <div className="w-10 h-1 bg-marigold rounded-full mx-auto mt-3" />
           </div>
 
-          {/* Decorative role tabs - see note above, purely cosmetic */}
+          {/* Role tabs - ab functional hain, dekhein upar handleSubmit ka role-gate check */}
           <div className="grid grid-cols-3 gap-2 mb-5 bg-slate-50 p-1.5 rounded-2xl">
             {roleTabs.map(({ key, label, icon: Icon }) => (
               <button

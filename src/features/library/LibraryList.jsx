@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Plus, PlusCircle, BookMarked, Loader2, AlertTriangle, RotateCcw } from "lucide-react";
+import { Plus, PlusCircle, BookMarked, Loader2, AlertTriangle, RotateCcw, Pencil, Trash2 } from "lucide-react";
 import toast from "react-hot-toast";
 import DashboardLayout from "../../components/layout/DashboardLayout";
 import PageHeader from "../../components/ui/PageHeader";
@@ -11,7 +11,7 @@ import ExportMenu from "../../components/ui/ExportMenu";
 import BookForm from "./BookForm";
 import IssueBookForm from "./IssueBookForm";
 import AddCopiesForm from "./AddCopiesForm";
-import { useGetBooksQuery, useGetAllIssuesQuery, useReturnBookMutation } from "./libraryApi";
+import { useGetBooksQuery, useGetAllIssuesQuery, useReturnBookMutation, useDeleteBookMutation } from "./libraryApi";
 import { exportToCSV, printAsReport } from "../../utils/exportUtils";
 
 const exportColumns = [
@@ -25,6 +25,8 @@ const exportColumns = [
 function LibraryList() {
   const [search, setSearch] = useState("");
   const [showAddModal, setShowAddModal] = useState(false);
+  const [editBook, setEditBook] = useState(null); // pura book object - edit modal ke liye
+  const [deleteConfirmFor, setDeleteConfirmFor] = useState(null); // { bookId, title }
   const [issueModalFor, setIssueModalFor] = useState(null); // { bookId, title }
   const [addCopiesFor, setAddCopiesFor] = useState(null); // { bookId, title, totalCopies }
   const [statusFilter, setStatusFilter] = useState("issued");
@@ -32,6 +34,7 @@ function LibraryList() {
   const { data: booksData, isLoading, isError, error } = useGetBooksQuery();
   const { data: issuesData } = useGetAllIssuesQuery({ status: statusFilter });
   const [returnBook] = useReturnBookMutation();
+  const [deleteBook, { isLoading: deleting }] = useDeleteBookMutation();
 
   const filtered = (booksData?.data || []).filter((b) => b.title.toLowerCase().includes(search.toLowerCase()));
 
@@ -45,6 +48,17 @@ function LibraryList() {
       toast.success(fine > 0 ? `Returned — ₹${fine} fine applied` : "Returned successfully");
     } catch (err) {
       toast.error(err.data?.message || "Failed to return book");
+    }
+  };
+
+  const handleDelete = async () => {
+    if (!deleteConfirmFor) return;
+    try {
+      await deleteBook(deleteConfirmFor.bookId).unwrap();
+      toast.success("Book deleted successfully");
+      setDeleteConfirmFor(null);
+    } catch (err) {
+      toast.error(err.data?.message || "Failed to delete book");
     }
   };
 
@@ -107,6 +121,35 @@ function LibraryList() {
         <BookForm onClose={() => setShowAddModal(false)} />
       </Modal>
 
+      {editBook && (
+        <Modal title="Edit Book" isOpen={!!editBook} onClose={() => setEditBook(null)}>
+          <BookForm book={editBook} onClose={() => setEditBook(null)} />
+        </Modal>
+      )}
+
+      {deleteConfirmFor && (
+        <Modal title="Delete Book" isOpen={!!deleteConfirmFor} onClose={() => setDeleteConfirmFor(null)}>
+          <p className="text-sm text-slate-500 mb-5">
+            Are you sure you want to delete <span className="font-semibold text-ink">{deleteConfirmFor.title}</span>? This cannot be undone.
+          </p>
+          <div className="flex gap-3">
+            <button
+              onClick={() => setDeleteConfirmFor(null)}
+              className="flex-1 bg-slate-100 text-ink text-sm font-semibold py-2.5 rounded-xl hover:bg-slate-200"
+            >
+              Cancel
+            </button>
+            <button
+              onClick={handleDelete}
+              disabled={deleting}
+              className="flex-1 bg-coral text-white text-sm font-semibold py-2.5 rounded-xl hover:brightness-95 disabled:opacity-60"
+            >
+              {deleting ? "Deleting..." : "Delete"}
+            </button>
+          </div>
+        </Modal>
+      )}
+
       {issueModalFor && (
         <Modal title="Issue Book" isOpen={!!issueModalFor} onClose={() => setIssueModalFor(null)}>
           <IssueBookForm bookId={issueModalFor.bookId} bookTitle={issueModalFor.title} onClose={() => setIssueModalFor(null)} />
@@ -146,13 +189,25 @@ function LibraryList() {
                 <div className="w-10 h-10 rounded-lg bg-marigold-soft flex items-center justify-center">
                   <BookMarked size={18} className="text-marigold" />
                 </div>
-                <button
-                  onClick={() => setAddCopiesFor({ bookId: b._id, title: b.title, totalCopies: b.totalCopies })}
-                  title="Add Copies"
-                  className="text-slate-300 hover:text-teal"
-                >
-                  <PlusCircle size={18} />
-                </button>
+                <div className="flex items-center gap-2.5">
+                  <button
+                    onClick={() => setAddCopiesFor({ bookId: b._id, title: b.title, totalCopies: b.totalCopies })}
+                    title="Add Copies"
+                    className="text-slate-300 hover:text-teal"
+                  >
+                    <PlusCircle size={18} />
+                  </button>
+                  <button onClick={() => setEditBook(b)} title="Edit Book" className="text-slate-300 hover:text-marigold">
+                    <Pencil size={16} />
+                  </button>
+                  <button
+                    onClick={() => setDeleteConfirmFor({ bookId: b._id, title: b.title })}
+                    title="Delete Book"
+                    className="text-slate-300 hover:text-coral"
+                  >
+                    <Trash2 size={16} />
+                  </button>
+                </div>
               </div>
               <p className="font-semibold text-ink text-sm mb-0.5 line-clamp-1">{b.title}</p>
               <p className="text-xs text-slate-400 mb-3">{b.author} · {b.category}</p>

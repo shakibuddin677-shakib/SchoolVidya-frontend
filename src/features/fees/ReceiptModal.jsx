@@ -19,15 +19,72 @@ function ReceiptModal({ paymentId, onClose }) {
     if (!receiptRef.current) return;
     setDownloading(true);
     try {
-      // Receipt UI ko hi seedha PNG image mein convert karke download karwa dete hain -
-      // isse student/admin ke paas ek "upload/share karne layak" image ban jaati hai
-      const dataUrl = await toPng(receiptRef.current, { pixelRatio: 2, backgroundColor: "#ffffff" });
-      const link = document.createElement("a");
-      link.download = `${receipt?.receiptNo?.replace(/\//g, "-") || "fee-receipt"}.png`;
-      link.href = dataUrl;
-      link.click();
-    } catch {
-      toast.error("Failed to download receipt image");
+      // BUG FIX #1: mobile par receipt ka DOM element phone ki screen jitni
+      // CHHOTI width mein hi render hota tha (kyunki uska parent container
+      // mobile viewport se bada nahi ho sakta) - isliye downloaded image bhi
+      // usi narrow/squished size mein ban jaati thi ("upload photo jaisi"
+      // dikhti thi, jaisa screenshot mein dikha).
+      //
+      // Fix: capture ke time ek OFFSCREEN CLONE banate hain jo screen se
+      // bahar (left: -99999px) ek FIXED, comfortable width (700px) par
+      // render hota hai - user ko kuch dikhta nahi, lekin download hamesha
+      // achhi quality/full-size receipt jaisi hi aati hai, chahe phone ki
+      // screen kitni bhi chhoti ho.
+      const original = receiptRef.current;
+      const clone = original.cloneNode(true);
+      clone.style.width = "700px";
+      clone.style.maxWidth = "700px";
+      clone.style.position = "fixed";
+      clone.style.top = "0";
+      clone.style.left = "-99999px";
+      clone.style.margin = "0";
+      document.body.appendChild(clone);
+
+      let dataUrl;
+      try {
+        dataUrl = await toPng(clone, { pixelRatio: 2, backgroundColor: "#ffffff" });
+      } finally {
+        document.body.removeChild(clone);
+      }
+
+      const filename = `${receipt?.receiptNo?.replace(/\//g, "-") || "fee-receipt"}.png`;
+
+      // BUG FIX: pehle Web Share API ko SABSE PEHLE try kiya jaata tha -
+      // isi wajah se har baar ek "Share" sheet popup ho jaata tha, chahe
+      // user sirf seedha download hi karna chahta ho. Ab hum device ke
+      // "default" behaviour follow karte hain: pehle DIRECT auto-download
+      // try hota hai (jo zyadatar mobile/desktop browsers par bina kisi
+      // popup ke seedha Downloads folder mein file save kar deta hai).
+      // Share sheet ab sirf LAST RESORT hai - sirf tab aati hai jab direct
+      // download genuinely kaam na kare.
+      try {
+        const link = document.createElement("a");
+        link.download = filename;
+        link.href = dataUrl;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      } catch {
+        const blob = await (await fetch(dataUrl)).blob();
+        const file = new File([blob], filename, { type: "image/png" });
+
+        if (navigator.canShare && navigator.canShare({ files: [file] })) {
+          await navigator.share({ files: [file], title: filename });
+        } else {
+          const win = window.open();
+          if (win) {
+            win.document.write(`<img src="${dataUrl}" alt="${filename}" style="max-width:100%" />`);
+          } else {
+            throw new Error("Download and popup both blocked");
+          }
+        }
+      }
+    } catch (err) {
+      // Web Share ka "AbortError" tab aata hai jab user khud share sheet
+      // cancel kar de - usse error toast nahi dikhani (wo koi bug nahi hai)
+      if (err?.name !== "AbortError") {
+        toast.error("Failed to download receipt image");
+      }
     } finally {
       setDownloading(false);
     }
