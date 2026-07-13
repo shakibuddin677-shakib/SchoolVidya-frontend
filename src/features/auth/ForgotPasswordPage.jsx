@@ -4,7 +4,7 @@ import { Mail, Loader2, ArrowLeft, MailCheck, KeyRound } from "lucide-react";
 import toast from "react-hot-toast";
 import axiosInstance from "../../api/axiosInstance";
 import schoolLogo from "../../assets/school-logo.png";
-import heroImage from "../../assets/hero.png";
+import heroImage from "../../assets/hero.jpg";
 
 function ForgotPasswordPage() {
   const [email, setEmail] = useState("");

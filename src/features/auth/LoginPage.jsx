@@ -5,7 +5,7 @@ import { Mail, Lock, Loader2, Eye, EyeOff, ShieldCheck, User, GraduationCap } fr
 import toast from "react-hot-toast";
 import { loginUser } from "./authSlice";
 import schoolLogo from "../../assets/school-logo.png";
-import heroImage from "../../assets/hero.png";
+import heroImage from "../../assets/hero.jpg";
 
 const roleRedirect = { admin: "/admin", teacher: "/teacher", student: "/student" };
 const roleLabel = { admin: "Admin", teacher: "Teacher", student: "Student" };

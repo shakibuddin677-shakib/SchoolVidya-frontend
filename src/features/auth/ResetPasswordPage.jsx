@@ -4,7 +4,7 @@ import { Lock, Loader2, ArrowLeft, Eye, EyeOff, ShieldCheck } from "lucide-react
 import toast from "react-hot-toast";
 import axiosInstance from "../../api/axiosInstance";
 import schoolLogo from "../../assets/school-logo.png";
-import heroImage from "../../assets/hero.png";
+import heroImage from "../../assets/hero.jpg";
 
 function ResetPasswordPage() {
   const { token } = useParams(); // URL: /reset-password/:token - matches backend route param
