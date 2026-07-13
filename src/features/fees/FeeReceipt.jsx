@@ -33,8 +33,8 @@ const feeForLabel = (feeStructure) => {
   return feeStructure.term || "—";
 };
 
-// forwardRef zaroori hai - is DOM node ko hi html-to-image se PNG image
-// mein convert karke download karwaya jaata hai (ReceiptModal dekho)
+// forwardRef zaroori hai - is DOM node ko hi printElement() ke zariye
+// hidden iframe mein print kiya jaata hai (ReceiptModal dekho)
 const FeeReceipt = forwardRef(function FeeReceipt({ receipt }, ref) {
   if (!receipt) return null;
 
