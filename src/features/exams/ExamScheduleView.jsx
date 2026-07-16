@@ -25,22 +25,19 @@ function ExamScheduleView() {
   const [showAddModal, setShowAddModal] = useState(false);
   const { user } = useSelector((state) => state.auth);
 
-  // Admin har subject ke results enter kar sakta hai. Teacher SIRF unhi
-  // subjects ke jo unko Teacher module mein assign kiye gaye hain
+  // Admin har subject ke results enter kar sakta hai.
   const teacherSubjectIds = (user?.profile?.subjects || []).map((s) => s._id || s);
   const canEnterResultsFor = (subjectId) =>
     user?.role === "admin" || teacherSubjectIds.includes(subjectId);
 
-  // Exam ka apna classId chahiye (Subject dropdown ko filter karne ke liye) -
-  // saari exams fetch karke isi ek ko dhoondh lete hain (chhota dataset hai)
+  // Exam ka apna classId chahiye (Subject dropdown ko filter karne ke liye) - saari exams fetch karke isi ek ko dhoondh lete hain (chhota dataset hai)
   const { data: examsData } = useGetExamsQuery();
   const exam = examsData?.data?.find((e) => e._id === examId);
 
   const { data, isLoading, isError, error } = useGetSchedulesByExamQuery(examId);
   const [deleteSchedule] = useDeleteExamScheduleMutation();
 
-  // Ranking sirf tab dikhti hai jab results release ho chuke hon -
-  // Class ke sections mein se ek chuno, phir usi section ki ranking aayegi
+  // Ranking sirf tab dikhti hai jab results release ho chuke hon - Class ke sections mein se ek chuno, phir usi section ki ranking aayegi
   const { data: sectionsData } = useGetSectionsQuery({ classId: exam?.classId?._id }, { skip: !exam?.classId?._id });
   const [rankingSectionId, setRankingSectionId] = useState("");
   const { data: rankingData, isFetching: rankingLoading } = useGetClassRankingQuery(

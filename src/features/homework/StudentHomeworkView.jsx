@@ -95,11 +95,7 @@ function StudentHomeworkView() {
                     <div>
                       <div className="flex items-center justify-between">
                         <Badge variant={statusVariant[submission.status]}>{submission.status}</Badge>
-                        {/* BUG FIX: pehle sirf raw "marksAwarded" dikhta tha
-                            (bina total ke), aur "feedback" bilkul dikhta hi
-                            nahi tha - Teacher ki SubmissionsView mein dono
-                            already the, Student wali view mein kabhi add
-                            nahi hue the */}
+                        {/* pehle marksAwarded aur feedback dono student view mein nahi dikhte the, ab dikhte hain */}
                         {submission.marksAwarded != null && (
                           <span className="text-xs font-semibold text-teal">
                             {submission.marksAwarded} / {submission.homeworkId?.totalMarks ?? "-"} marks

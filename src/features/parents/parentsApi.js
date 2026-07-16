@@ -2,7 +2,7 @@ import { apiSlice } from "../../api/apiSlice";
 
 export const parentsApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    // Matches backend: GET /api/parents?page=&limit=
+    // GET /api/parents?page=&limit=
     getParents: builder.query({
       query: ({ page = 1, limit = 10 } = {}) => `/parents?page=${page}&limit=${limit}`,
       providesTags: (result) =>

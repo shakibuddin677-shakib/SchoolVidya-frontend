@@ -1,6 +1,4 @@
-// Signature detail: har card ke left mein ek thin colored border -
-// jaise ruled notebook paper ka margin line. Chhota detail, poore
-// dashboard mein consistent identity banata hai
+// har card ke left mein ek thin colored border - jaise ruled notebook paper ka margin line.
 function StatCard({ icon: Icon, label, value, active, inactive, accent = "marigold" }) {
   const accentMap = {
     marigold: "border-marigold bg-marigold-soft text-marigold",

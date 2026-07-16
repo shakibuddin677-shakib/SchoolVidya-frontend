@@ -1,6 +1,4 @@
-// Generic responsive table - horizontal scroll chhoti screen pe (data
-// tables ke liye card-layout se better UX hai, columns compare karna aasan)
-// columns: [{ key, label, render? }] - render optional custom cell renderer
+// generic responsive table, chhoti screen pe horizontal scroll ho jata hai
 function Table({ columns, data, keyField = "_id" }) {
   return (
     <div className="bg-white rounded-2xl shadow-sm overflow-hidden">

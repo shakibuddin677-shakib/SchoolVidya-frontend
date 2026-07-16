@@ -7,11 +7,7 @@ import {
   useUnpublishExamResultsMutation,
 } from "./examsApi";
 
-// Ek exam ke saare subjects ka completion status dikhata hai, aur
-// "Release Results" button SIRF tab enable karta hai jab har subject ke
-// saare students ke marks enter ho chuke hon. Isse pehle Students ko
-// koi bhi marks nahi dikhte - chahe kisi subject ke marks kabhi ke
-// enter ho chuke hon.
+// exam ke saare subjects ka completion status dikhata hai, Release Results button tabhi enable hota hai jab sab subjects complete ho
 function ReleaseResultsModal({ exam, onClose }) {
   const { data, isLoading, isError, error } = useGetExamResultStatusQuery(exam._id, { skip: !exam });
   const [releaseResults, { isLoading: isReleasing }] = useReleaseExamResultsMutation();

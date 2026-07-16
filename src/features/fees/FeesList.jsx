@@ -21,9 +21,7 @@ function FeesList() {
   const [payModalFor, setPayModalFor] = useState(null); // { feeStructureId, feeType }
   const [receiptFor, setReceiptFor] = useState(null); // paymentId - payment record hote hi receipt yahan khulti hai
   const [selectedStudentId, setSelectedStudentId] = useState("");
-  // Class/section filter - student dropdown ko sirf isi class/section ke
-  // students tak seemit karta hai, taaki bade schools mein bhi student
-  // dhoondhna aasaan rahe
+  // Class/section filter - student dropdown ko sirf isi class/section ke students tak seemit karta hai, taaki bade schools mein bhi student dhoondhna aasaan rahe
   const [filterClassId, setFilterClassId] = useState("");
   const [filterSectionId, setFilterSectionId] = useState("");
 
@@ -32,8 +30,7 @@ function FeesList() {
 
   const { data: sectionsData } = useGetSectionsQuery({ classId: filterClassId }, { skip: !filterClassId });
 
-  // Class select hote hi student list class-wise fetch hoti hai (higher limit
-  // kyunki ab yeh ek hi class tak seemit hai, poore school ka nahi)
+  // Class select hote hi student list class-wise fetch hoti hai (higher limit kyunki ab yeh ek hi class tak seemit hai, poore school ka nahi)
   const { data: studentsData } = useGetStudentsQuery({
     limit: filterClassId ? 200 : 50,
     classId: filterClassId || undefined,
@@ -190,9 +187,7 @@ function FeesList() {
                   <div>
                     <p className="text-sm font-semibold text-ink">
                       {f.feeType}
-                      {/* Tuition Fee ab month-wise hai, isliye ek se zyada rows
-                          aa sakti hain same feeType ke saath - month/term
-                          label dikhana zaroori hai taaki distinguish ho sake */}
+                      {/* Tuition Fee ab month-wise hai, isliye ek se zyada rows aa sakti hain same feeType ke saath - month/term label dikhana zaroori hai taaki distinguish ho sake */}
                       {f.month && (
                         <span className="text-slate-400 font-normal">
                           {" "}

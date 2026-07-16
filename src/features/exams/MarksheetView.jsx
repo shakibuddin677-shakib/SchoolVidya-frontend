@@ -8,9 +8,7 @@ import { useGetAttendanceByStudentQuery } from "../attendance/attendanceApi";
 import { calculateAttendancePercentageForRange } from "../../utils/attendanceUtils";
 import Marksheet from "./Marksheet";
 
-// Standalone printable page - "My Results" ke "Marksheet" button se naye
-// tab mein khulta hai. Poora visual Marksheet.jsx (shared component) se
-// aata hai - yahan sirf data-fetching + print/back toolbar hai
+// Standalone printable page - "My Results" ke "Marksheet" button se naye tab mein khulta hai.
 function MarksheetView() {
   const { examId } = useParams();
   const navigate = useNavigate();
@@ -31,8 +29,7 @@ function MarksheetView() {
   const { data: rankingData } = useGetClassRankingQuery({ examId }, { skip: !exam?.isPublished });
   const myRank = rankingData?.data?.find((s) => s.studentId === studentId);
 
-  // BUG FIX: pehle poori lifetime attendance % dikhti thi (har exam ke
-  // liye same number) - ab SELECTED EXAM ke date-range tak simit % nikaalte hain
+  // pehle poori lifetime attendance % dikhti thi (har exam ke liye same number) - ab SELECTED EXAM ke date-range tak simit % nikaalte hain
   const { data: attendanceData } = useGetAttendanceByStudentQuery({ studentId }, { skip: !studentId });
   const attendancePercentage = calculateAttendancePercentageForRange(
     attendanceData?.data,

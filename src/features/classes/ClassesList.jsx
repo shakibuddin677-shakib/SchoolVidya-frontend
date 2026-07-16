@@ -14,9 +14,7 @@ function ClassesList() {
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
   const [showAddModal, setShowAddModal] = useState(false);
-  // BUG FIX: Edit (Pencil) button existed but had no onClick - it did
-  // nothing. Backend PUT /api/classes/:id and the updateClass mutation
-  // already existed, this was purely missing frontend wiring.
+  // Edit (Pencil) button existed but had no onClick - it did nothing.
   const [editingClass, setEditingClass] = useState(null);
 
   const { data, isLoading, isError, error } = useGetClassesQuery({ page, limit: 10 });

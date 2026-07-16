@@ -5,9 +5,7 @@ import { useCreateClassMutation, useUpdateClassMutation } from "./classesApi";
 
 const initialState = { name: "", academicYear: "" };
 
-// "classItem" prop diya hone par EDIT mode (jaisa SectionForm/TeacherForm
-// mein already pattern hai), warna CREATE mode - matches backend
-// POST /api/classes (create) aur PUT /api/classes/:id (edit)
+// "classItem" prop diya hone par EDIT mode (jaisa SectionForm/TeacherForm mein already pattern hai), warna CREATE mode - matches backend POST /api/classes
 function ClassForm({ classItem = null, onClose }) {
   const isEditMode = Boolean(classItem);
   const [form, setForm] = useState(

@@ -1,8 +1,7 @@
 import { forwardRef } from "react";
 import schoolLogo from "../../assets/school-logo.png";
 
-// School info - filhal yahan hardcoded hai kyunki backend mein abhi koi
-// "School Settings" model nahi hai. Jab wo bane, isko waha se fetch karna.
+// School info - filhal yahan hardcoded hai kyunki backend mein abhi koi "School Settings" model nahi hai.
 const SCHOOL_INFO = {
   name: "School Vidya Academy",
   address: "Vill+Post - Maskedih, Ps- Chalkusha, Dist- Hazaribagh, Jharkhand - 825109",
@@ -20,8 +19,7 @@ const paymentModeLabel = {
   netbanking: "Net Banking",
 };
 
-// Fee For(s) label - Tuition Fee month-wise hoti hai ("2026-07"), baaki
-// fee types term-wise ("Term 1")
+// Fee For(s) label - Tuition Fee month-wise hoti hai ("2026-07"), baaki fee types term-wise ("Term 1")
 const feeForLabel = (feeStructure) => {
   if (!feeStructure) return "—";
   if (feeStructure.billingType === "month" && feeStructure.month) {
@@ -33,8 +31,7 @@ const feeForLabel = (feeStructure) => {
   return feeStructure.term || "—";
 };
 
-// forwardRef zaroori hai - is DOM node ko hi printElement() ke zariye
-// hidden iframe mein print kiya jaata hai (ReceiptModal dekho)
+// forwardRef zaroori hai - is DOM node ko hi printElement() ke zariye hidden iframe mein print kiya jaata hai (ReceiptModal dekho)
 const FeeReceipt = forwardRef(function FeeReceipt({ receipt }, ref) {
   if (!receipt) return null;
 
@@ -131,10 +128,7 @@ const FeeReceipt = forwardRef(function FeeReceipt({ receipt }, ref) {
         </div>
       </div>
 
-      {/* BUG FIX: is receipt ka balance ₹0 hone ka matlab yeh NAHI ki student
-          ke saare fees clear ho gaye - baaki fee types (jaise Exam Fee,
-          Library Fee) alag se pending ho sakte hain. Yeh line saaf batati hai
-          ki school mein OVERALL kitna pending hai (sab fee types milaake) */}
+      {/* is receipt ka balance ₹0 hone ka matlab yeh NAHI ki student ke saare fees clear ho gaye - baaki fee types (jaise Exam Fee, Library Fee) alag se pending ho */}
       {overallTotalPending > 0 && (
         <div className="mt-2 flex justify-between px-4 py-2.5 rounded-xl bg-coral-soft text-coral text-xs sm:text-sm font-semibold">
           <span>Total Pending (all fees, this student)</span>

@@ -8,9 +8,7 @@ const feeTypeOptions = ["Tuition Fee", "Exam Fee", "Library Fee", "Transport Fee
 
 const initialState = { classId: "", feeType: "Tuition Fee", term: "", month: "", amount: "", dueDate: "" };
 
-// FEATURE: "Tuition Fee" ab MONTH-wise hai (jaise "July 2026"), baaki sab
-// fee types (Exam Fee, Library Fee, etc.) TERM-wise hi hain (jaise pehle
-// the) - form isi ke hisaab se Month picker ya Term input dikhata hai
+// Tuition Fee month-wise hai, baaki fee types term-wise, form usi hisaab se month ya term input dikhata hai
 function FeeStructureForm({ onClose }) {
   const [form, setForm] = useState(initialState);
   const { data: classesData } = useGetClassesQuery();

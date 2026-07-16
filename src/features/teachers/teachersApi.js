@@ -2,7 +2,7 @@ import { apiSlice } from "../../api/apiSlice";
 
 export const teachersApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    // Matches backend: GET /api/users?role=teacher&page=&limit=
+    // GET /api/users?role=teacher&page=&limit=
     getTeachers: builder.query({
       query: ({ page = 1, limit = 10 } = {}) => `/users?role=teacher&page=${page}&limit=${limit}`,
       providesTags: (result) =>

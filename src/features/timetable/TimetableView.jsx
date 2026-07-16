@@ -44,8 +44,7 @@ function TimetableView() {
     }
   };
 
-  // Export - jo bhi section select hai, usi ka poora timetable, Monday se
-  // Saturday tak sorted (raw data ka order guaranteed nahi hota)
+  // Export - jo bhi section select hai, usi ka poora timetable, Monday se Saturday tak sorted (raw data ka order guaranteed nahi hota)
   const exportRows = days.flatMap((day) => periodsByDay[day] || []);
   const sectionLabel = selectedSection ? `${selectedSection.classId?.name}, ${selectedSection.name}` : "";
 

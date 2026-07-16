@@ -7,9 +7,7 @@ import { useGetTimetableByTeacherQuery } from "./timetableApi";
 const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 const accents = ["bg-marigold-soft text-marigold", "bg-teal-soft text-teal", "bg-coral-soft text-coral", "bg-slate-100 text-slate-600"];
 
-// Read-only "my weekly schedule" - Teacher ko section/class chunne ki zaroorat
-// nahi, seedha unka apna poora hafte ka schedule (saari sections/classes
-// milaakar) dikh jaata hai. Add/Delete yahan nahi hai - wo Admin-only hai.
+// Read-only "my weekly schedule" - Teacher ko section/class chunne ki zaroorat nahi, seedha unka apna poora hafte ka schedule (saari sections/classes milaakar)
 function TeacherTimetableView() {
   const { user } = useSelector((state) => state.auth);
   const teacherId = user?.profile?._id;

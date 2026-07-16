@@ -13,8 +13,7 @@ import StudentProfileView from "./StudentProfileView";
 import { useGetStudentsQuery, useLazyGetStudentsQuery, useDeleteStudentMutation } from "./studentsApi";
 import { exportToCSV, printAsReport } from "../../utils/exportUtils";
 
-// Export CSV/PDF mein columns yehi honge - "value" function se nested
-// field (jaise s.profile.rollNo) nikaalte hain
+// Export CSV/PDF mein columns yehi honge - "value" function se nested field (jaise s.profile.rollNo) nikaalte hain
 const exportColumns = [
   { key: "name", label: "Name" },
   { key: "email", label: "Email" },
@@ -34,26 +33,17 @@ function StudentsList() {
   const [page, setPage] = useState(1);
   const [openMenu, setOpenMenu] = useState(null);
   const [showAddModal, setShowAddModal] = useState(false);
-  // BUG FIX: "All Classes" filter button existed in the UI but had no
-  // onClick, no dropdown, and wasn't wired to the query at all - it did
-  // nothing. Backend already supports ?classId= (see studentsApi.js) -
-  // this was purely missing frontend wiring.
+  // "All Classes" filter button existed in the UI but had no onClick, no dropdown, and wasn't wired to the query at all - it did nothing.
   const [classId, setClassId] = useState("");
-  // BUG FIX: "View" and "Edit" buttons existed in the UI but had no onClick
-  // at all - they did nothing. Backend already supports both
-  // (GET /api/users/:id and PUT /api/users/:id) - this was purely missing
-  // frontend wiring.
+  // "View" and "Edit" buttons existed in the UI but had no onClick at all - they did nothing.
   const [viewingStudentId, setViewingStudentId] = useState(null); // -> opens read-only profile modal
   const [editingStudent, setEditingStudent] = useState(null); // -> opens StudentForm in edit mode
 
-  // Ek hi hook call se data, loading, aur error - teeno mil jaate hain
-  // isLoading = pehli baar fetch ho raha hai (koi cache nahi)
-  // isFetching = koi bhi fetch chal raha hai (pehli baar ya refetch)
+  // ek hi hook call se data, loading aur error teeno mil jaate hain
   const { data, isLoading, isFetching, isError, error } = useGetStudentsQuery({ page, limit: 8, classId: classId || undefined });
   const [deleteStudent] = useDeleteStudentMutation();
 
-  // Export sirf current page nahi, CURRENT FILTER ke saare students
-  // exports karta hai - isliye ek alag lazy (on-demand) fetch, high limit ke saath
+  // Export sirf current page nahi, CURRENT FILTER ke saare students exports karta hai - isliye ek alag lazy (on-demand) fetch, high limit ke saath
   const [triggerExportFetch, { isFetching: exportLoading }] = useLazyGetStudentsQuery();
 
   const fetchExportData = async () => {
@@ -76,9 +66,7 @@ function StudentsList() {
     setPage(1); // filter badalte hi pehle page pe wapas jao
   };
 
-  // Backend abhi "search" query param support nahi karta - isliye
-  // filtering fetched page ke andar hi ho rahi hai (client-side).
-  // Agla improvement: backend getAllUsers mein ?search= add karo
+  // Backend abhi "search" query param support nahi karta - isliye filtering fetched page ke andar hi ho rahi hai (client-side).
   const filtered = (data?.data || []).filter((s) =>
     s.name.toLowerCase().includes(search.toLowerCase()) || s.profile?.rollNo?.includes(search)
   );

@@ -5,15 +5,12 @@ import { Mail, Lock, Loader2, Eye, EyeOff, ShieldCheck, User, GraduationCap } fr
 import toast from "react-hot-toast";
 import { loginUser } from "./authSlice";
 import schoolLogo from "../../assets/school-logo.png";
-import heroImage from "../../assets/hero.jpg";
+import heroImage from "../../assets/hero.png";
 
 const roleRedirect = { admin: "/admin", teacher: "/teacher", student: "/student" };
 const roleLabel = { admin: "Admin", teacher: "Teacher", student: "Student" };
 
-// FEATURE: yeh tabs ab FUNCTIONAL hain - jo tab select hai, sirf usi role
-// ka account us se login kar payega. Agar "Admin" select hai aur Teacher/
-// Student ke credentials daale jaayein, to login reject ho jaata hai
-// (neeche handleSubmit dekhein).
+// yeh tabs ab FUNCTIONAL hain - jo tab select hai, sirf usi role ka account us se login kar payega.
 const roleTabs = [
   { key: "admin", label: "Admin", icon: ShieldCheck },
   { key: "teacher", label: "Teacher", icon: User },
@@ -35,10 +32,7 @@ function LoginPage() {
     try {
       const user = await dispatch(loginUser({ email, password })).unwrap();
 
-      // FEATURE: role-gate - backend email/password se authenticate to kar
-      // deta hai, lekin agar account ka asli role selected TAB se match
-      // nahi karta, to hum login rok ke bata dete hain ki galat tab select
-      // hai (session logout NAHI karte, sirf flash message dikhate hain)
+      // agar account ka asli role selected tab se match nahi karta to login rok ke galat tab batate hain
       if (user.role !== activeTab) {
         toast.error(
           `This account is registered as a ${roleLabel[user.role] || user.role}, not ${roleLabel[activeTab]}. Please select the correct tab.`

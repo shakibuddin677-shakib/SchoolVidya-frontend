@@ -29,8 +29,7 @@ const rankBadgeClass = (rank) => {
 const scorePillClass = (pct) =>
   pct >= 90 ? "bg-teal-soft text-teal" : pct >= 75 ? "bg-marigold-soft text-marigold" : pct >= 50 ? "bg-slate-100 text-slate-500" : "bg-coral-soft text-coral";
 
-// Rank-wise leaderboard - "Best Performers" (teachers) aur "Star Students"
-// dono isi ek component se banate hain, comfortably-sized readable rows ke saath
+// Rank-wise leaderboard - "Best Performers" (teachers) aur "Star Students" dono isi ek component se banate hain, comfortably-sized readable rows ke saath
 function RankedList({ title, icon: Icon, accent, items, renderName, renderSub, renderScore }) {
   return (
     <SectionCard title={title} action={<Icon size={16} className={`text-${accent}`} />}>
@@ -62,8 +61,7 @@ function RankedList({ title, icon: Icon, accent, items, renderName, renderSub, r
 }
 
 function AdminDashboard() {
-  // "" = Overall (sab classes ka data), koi ID select karne par sirf usi class ka
-  // Fee Collection aur Attendance widgets pe filter lagta hai
+  // "" = Overall (sab classes ka data), koi ID select karne par sirf usi class ka Fee Collection aur Attendance widgets pe filter lagta hai
   const [classId, setClassId] = useState("");
 
   // Matches backend GET /api/reports/dashboard-stats exactly
@@ -80,10 +78,7 @@ function AdminDashboard() {
 
   const stats = statsData?.data;
 
-  // Backend attendance report is class-wise, all-time (not "today") - jab
-  // "Overall" chuna hai, hum sab classes ka average nikalte hain; jab ek
-  // specific class chuni hai, array mein sirf usi class ki entry aati hai
-  // (backend fix), isliye yehi formula dono cases mein sahi kaam karta hai
+  // "Overall" chuna hai to sab classes ka average nikalte hain, specific class chuni hai to seedha usi ki entry
   const overallAttendancePct = attendanceData?.data?.length
     ? Math.round(attendanceData.data.reduce((sum, c) => sum + c.attendancePercentage, 0) / attendanceData.data.length)
     : 0;

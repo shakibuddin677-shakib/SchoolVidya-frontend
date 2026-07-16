@@ -4,8 +4,7 @@ import {
   Bell, BarChart3, NotebookPen,
 } from "lucide-react";
 
-// Role ke hisaab se sidebar links alag hote hain - Admin sabkuch dekh
-// sakta hai, Teacher/Student ko sirf unse relevant cheezein dikhti hain
+// Role ke hisaab se sidebar links alag hote hain - Admin sabkuch dekh sakta hai, Teacher/Student ko sirf unse relevant cheezein dikhti hain
 export const navConfig = {
   admin: [
     {

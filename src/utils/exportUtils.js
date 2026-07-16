@@ -1,32 +1,4 @@
-// Har module (Students, Teachers, Parents, Timetable, Library, Notices,
-// Fee Receipt) ke "Export"/"Print" button isi file ke functions use karte
-// hain. Koi extra PDF library (jsPDF waghera) nahi chahiye — CSV Blob se
-// banta hai, aur "PDF" browser ke apne "Print -> Save as PDF" se milta hai.
-//
-// ================== DEVICE-FRIENDLY PRINT (root cause + fix) ==================
-// Do purane tareeke istemal ho rahe the, dono buggy nikle:
-//
-// 1. window.open() + document.write() + win.print() (POPUP based)
-//    Mobile browsers (Android Chrome, iOS Safari) is popup-based print()
-//    ko reliably support nahi karte - error: "There was a problem
-//    printing the page, please try again". iPad jaise devices "mobile"
-//    detect bhi nahi hote (iPadOS apna userAgent desktop jaisa dikhata
-//    hai), isliye UA-sniffing se "mobile ya nahi" decide karna bhi
-//    bharosemand nahi hai.
-//
-// 2. html-to-image (canvas/SVG screenshot library) fallback
-//    Tailwind CSS v4 ke default colors (slate-400, slate-50, waghera)
-//    OKLCH color format mein hote hain. Bahut se browsers ka canvas/SVG
-//    rasterizer OKLCH colors ko sahi se draw nahi kar paata - isi wajah
-//    se downloaded image poori tarah SAFED (blank) aati thi, na text na
-//    design (screenshot mein bilkul yehi dikha).
-//
-// FIX: in dono ki jagah, EK hi reliable technique - hidden SAME-PAGE
-// <iframe> (koi naya window/popup NAHI khulta, isliye koi popup-block ya
-// mobile-print-pipeline issue nahi) jisse turant print() call karte hain.
-// Yeh asli browser rendering use karta hai (koi image conversion nahi),
-// isliye OKLCH color issue bhi khatam. Aur yeh mobile/tablet/desktop
-// SAB par ek hi tarah kaam karta hai - koi UA-sniffing nahi chahiye.
+// Har module (Students, Teachers, Parents, Timetable, Library, Notices, Fee Receipt) ke "Export"/"Print" button isi file ke functions use karte hain.
 
 function createHiddenIframe() {
   const iframe = document.createElement("iframe");
@@ -48,10 +20,7 @@ function printViaHiddenIframe(idoc, iframe, { waitForImages = true } = {}) {
       alert("Printing isn't supported on this browser. Please try the CSV download instead.");
       return;
     }
-    // "afterprint" zyadatar browsers mein fire hota hai jab print dialog
-    // band ho jaaye - lekin kuch mobile browsers isse support nahi
-    // karte, isliye ek fallback timer bhi rakha hai taaki iframe hamesha
-    // eventually saaf ho jaaye, chahe afterprint fire ho ya na ho
+    // "afterprint" zyadatar browsers mein fire ho jata hai, kuch mobile browsers support nahi karte isliye fallback timer bhi rakha hai
     iframe.contentWindow.onafterprint = cleanup;
     setTimeout(cleanup, 60000);
   };
@@ -68,9 +37,7 @@ function printViaHiddenIframe(idoc, iframe, { waitForImages = true } = {}) {
   ).then(() => setTimeout(finish, 150));
 }
 
-// ================== CSV EXPORT ==================
-// columns: [{ key: "name", label: "Name" }, ...]
-// rows: [{ name: "...", ... }, ...] - column.key se value uthaya jaata hai
+// columns aur rows array of objects hote hain, column.key se value uthaya jaata hai
 export function exportToCSV(filename, columns, rows) {
   const escapeCell = (val) => `"${String(val ?? "—").replace(/"/g, '""')}"`;
 
@@ -89,10 +56,7 @@ export function exportToCSV(filename, columns, rows) {
   URL.revokeObjectURL(url);
 }
 
-// ================== PRINT / SAVE AS PDF (self-contained HTML report) ==================
-// Students/Teachers/Parents/Timetable/Library/Notices "Export" button isi
-// se apni tabular report print karta hai - poora HTML+CSS iss function ke
-// andar hi likha hota hai (Tailwind classes par depend nahi karta).
+// har module ka "Export" button isi se apni tabular report print karta hai, poora HTML+CSS isi function ke andar likha hai
 export function printAsReport({ title, subtitle, columns, rows }) {
   const escapeHtml = (val) =>
     String(val ?? "—").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
@@ -156,13 +120,7 @@ export function printAsReport({ title, subtitle, columns, rows }) {
   printViaHiddenIframe(idoc, iframe, { waitForImages: false });
 }
 
-// ================== PRINT / SAVE AS PDF (live Tailwind-styled element) ==================
-// Fee Receipt jaise components ke liye - jo Tailwind utility classes
-// (bg-ink, text-slate-400, waghera) se style hote hain, ready-made HTML
-// string ki tarah nahi. Current page ke saare <style>/<link> tags ko
-// HUBAHU hidden iframe mein copy kar dete hain, taaki wahi exact design
-// print ho - bina dobara CSS likhe, aur bina kisi PNG/canvas conversion
-// library ke (jo OKLCH colors ke saath blank result deti thi).
+// Fee Receipt jaise Tailwind-styled components ke liye, jo ready-made HTML string nahi hain
 export function printElement({ title, node }) {
   if (!node) return;
 
@@ -172,9 +130,7 @@ export function printElement({ title, node }) {
   idoc.write(`<!DOCTYPE html><html><head><title>${title || "Print"}</title></head><body></body></html>`);
   idoc.close();
 
-  // Current page ke saare stylesheets (Tailwind ka poora compiled CSS)
-  // hubahu copy karo - yehi wajah hai ki original design (colors, fonts,
-  // spacing) bina kisi extra kaam ke print mein bhi wahi dikhta hai
+  // current page ke saare stylesheets copy karo, taaki print mein bhi original design (colors, fonts, spacing) wahi rahe
   const styleNodes = document.querySelectorAll('style, link[rel="stylesheet"]');
   styleNodes.forEach((s) => idoc.head.appendChild(s.cloneNode(true)));
 
@@ -187,9 +143,7 @@ export function printElement({ title, node }) {
 
   idoc.body.appendChild(node.cloneNode(true));
 
-  // Agar stylesheet <link> tags hain (production build mein aisa hota
-  // hai), unke load hone ka wait karo - warna print unstyled/blank aa
-  // sakta hai
+  // Agar stylesheet <link> tags hain (production build mein aisa hota hai), unke load hone ka wait karo - warna print unstyled/blank aa sakta hai
   const linkTags = Array.from(idoc.querySelectorAll('link[rel="stylesheet"]'));
   const waitForStyles = linkTags.length
     ? Promise.all(

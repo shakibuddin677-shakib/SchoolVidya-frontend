@@ -5,8 +5,7 @@ import { useGetClassesQuery } from "./classesApi";
 import { useCreateSectionMutation, useUpdateSectionMutation } from "./sectionsApi";
 import { useGetTeachersQuery } from "../teachers/teachersApi";
 
-// Agar "section" prop diya hai to yeh form EDIT mode mein khulega
-// (sirf class teacher change karne ke liye), warna naya section CREATE hoga
+// Agar "section" prop diya hai to yeh form EDIT mode mein khulega (sirf class teacher change karne ke liye), warna naya section CREATE hoga
 function SectionForm({ section, onClose }) {
   const isEditMode = Boolean(section);
 

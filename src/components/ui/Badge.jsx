@@ -1,5 +1,4 @@
-// Status/tag pills - "Active", "Pass", "Unpaid" waghera ke liye
-// poore app mein reuse hoga
+// Status/tag pills - "Active", "Pass", "Unpaid" waghera ke liye poore app mein reuse hoga
 const variants = {
   success: "bg-teal-soft text-teal",
   warning: "bg-marigold-soft text-marigold",

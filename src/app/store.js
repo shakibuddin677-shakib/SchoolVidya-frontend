@@ -7,7 +7,6 @@ export const store = configureStore({
     auth: authReducer,
     [apiSlice.reducerPath]: apiSlice.reducer, // RTK Query ka apna reducer
   },
-  // middleware add karna ZAROORI hai - yehi caching, auto-refetch,
-  // polling jaisi saari "smart" cheezein enable karta hai
+  // middleware add karna ZAROORI hai - yehi caching, auto-refetch, polling jaisi saari "smart" cheezein enable karta hai
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(apiSlice.middleware),
 });

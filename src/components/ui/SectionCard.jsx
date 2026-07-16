@@ -1,5 +1,4 @@
-// Generic white "panel" wrapper - har dashboard widget (chart, list, table)
-// isi se wrap hota hai, taaki spacing/shadow/radius consistent rahe
+// Generic white "panel" wrapper - har dashboard widget (chart, list, table) isi se wrap hota hai, taaki spacing/shadow/radius consistent rahe
 function SectionCard({ title, action, children, className = "" }) {
   return (
     <div className={`bg-white rounded-2xl shadow-sm p-5 ${className}`}>

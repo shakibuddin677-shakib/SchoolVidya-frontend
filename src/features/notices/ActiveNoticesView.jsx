@@ -3,8 +3,7 @@ import DashboardLayout from "../../components/layout/DashboardLayout";
 import PageHeader from "../../components/ui/PageHeader";
 import { useGetActiveNoticesQuery } from "./noticesApi";
 
-// Shared by Student aur Teacher dono - backend khud role ke hisaab se
-// relevant notices filter karke deta hai (getActiveNotices)
+// Shared by Student aur Teacher dono - backend khud role ke hisaab se relevant notices filter karke deta hai (getActiveNotices)
 function ActiveNoticesView() {
   const { data, isLoading, isError, error } = useGetActiveNoticesQuery();
 

@@ -2,7 +2,7 @@ import { apiSlice } from "../../api/apiSlice";
 
 export const examSchedulesApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    // Matches backend: GET /api/exam-schedules/exam/:examId
+    // GET /api/exam-schedules/exam/:examId
     getSchedulesByExam: builder.query({
       query: (examId) => `/exam-schedules/exam/${examId}`,
       providesTags: (result) =>

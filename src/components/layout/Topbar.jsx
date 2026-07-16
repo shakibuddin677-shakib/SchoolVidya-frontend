@@ -4,8 +4,7 @@ import { Menu, Bell, LogOut, MapPin, Camera, Loader2, X } from "lucide-react";
 import schoolLogo from "../../assets/school-logo.png";
 import { updateAvatar } from "../../features/auth/authSlice";
 
-// onMenuClick - mobile pe hamburger dabane se Sidebar khulti hai
-// onLogout - profile ke paas wale logout icon se call hota hai
+// onMenuClick - mobile pe hamburger dabane se Sidebar khulti hai onLogout - profile ke paas wale logout icon se call hota hai
 function Topbar({ onMenuClick, userName = "User", role = "", onLogout }) {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
@@ -45,10 +44,7 @@ function Topbar({ onMenuClick, userName = "User", role = "", onLogout }) {
           <Menu size={22} />
         </button>
 
-        {/* Jahan pehle search box tha, wahan ab logo + school name + address -
-            premium look ke liye logo + gradient accent bar + do-line
-            layout. Address sirf sm (tablet) aur upar dikhta hai - mobile
-            pe hamburger + bell + avatar ke saath jagah bahut kam hoti hai */}
+        {/* Jahan pehle search box tha, wahan ab logo + school name + address - premium look ke liye logo + gradient accent bar + do-line layout. */}
         <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
           <img src={schoolLogo} alt="School Logo" className="w-9 h-9 sm:w-10 sm:h-10 rounded-full object-contain shrink-0" />
           <span className="hidden sm:block w-[3px] h-8 rounded-full bg-gradient-to-b from-marigold to-coral shrink-0" />

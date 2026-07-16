@@ -1,12 +1,7 @@
 import { ChevronDown } from "lucide-react";
 import { useGetClassesQuery } from "../../features/classes/classesApi";
 
-// Reusable "Overall / Class-wise" filter dropdown - Reports & Analytics page
-// aur Admin Dashboard, dono isi component ko use karte hain taaki dono jagah
-// same look-and-feel + same behaviour rahe.
-//
-// value === "" -> "Overall" (sab classes milaakar, jaisa pehle tha)
-// value === "<classId>" -> sirf usi ek class ka data
+// reusable overall/class-wise filter dropdown, Reports page aur Admin Dashboard dono isi ko use karte hain
 function ClassFilter({ value, onChange }) {
   const { data: classesData } = useGetClassesQuery({ limit: 100 });
 

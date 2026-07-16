@@ -29,8 +29,7 @@ function HomeworkForm({ onClose }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      // File upload ke liye JSON nahi, FormData chahiye - multer isi ko
-      // parse karega backend pe
+      // File upload ke liye JSON nahi, FormData chahiye - multer isi ko parse karega backend pe
       const formData = new FormData();
       Object.entries(form).forEach(([key, value]) => formData.append(key, value));
       if (file) formData.append("attachment", file);

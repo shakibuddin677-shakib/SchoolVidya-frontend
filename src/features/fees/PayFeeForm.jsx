@@ -3,11 +3,7 @@ import toast from "react-hot-toast";
 import FormField, { inputClass } from "../../components/ui/FormField";
 import { usePayFeeMutation } from "./feesApi";
 
-// studentId + feeStructureId already known (row se aate hain) -
-// yahan sirf amount/mode/transaction poochte hain
-// onPaid (optional): payment record hone ke baad backend jo populated
-// payment document deta hai wo yahan se parent ko milta hai - taaki parent
-// turant uski Fee Receipt khol sake
+// studentId/feeStructureId row se already known hain, yahan sirf amount/mode/transaction poochte hain
 function PayFeeForm({ studentId, feeStructureId, feeType, onClose, onPaid }) {
   const [form, setForm] = useState({ amountPaid: "", paymentMode: "cash", transactionId: "" });
   const [payFee, { isLoading }] = usePayFeeMutation();

@@ -2,8 +2,7 @@ import { Navigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Loader2 } from "lucide-react";
 
-// allowedRoles - jaise ["admin"] ya ["admin", "teacher"]
-// children - jo dashboard/page protect karna hai
+// allowedRoles - jaise ["admin"] ya ["admin", "teacher"] children - jo dashboard/page protect karna hai
 function ProtectedRoute({ allowedRoles, children }) {
   const { user, isAuthenticated, loading } = useSelector((state) => state.auth);
 

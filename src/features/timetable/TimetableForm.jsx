@@ -7,8 +7,7 @@ import { useCreatePeriodMutation } from "./timetableApi";
 
 const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
-// sectionId + classId already known (Section select ho chuka hai TimetableView mein) -
-// isliye yahan sirf day/subject/teacher/time poochte hain
+// sectionId + classId already known (Section select ho chuka hai TimetableView mein) - isliye yahan sirf day/subject/teacher/time poochte hain
 function TimetableForm({ sectionId, classId, onClose }) {
   const [form, setForm] = useState({ dayOfWeek: "Monday", subjectId: "", teacherId: "", startTime: "", endTime: "" });
   const { data: subjectsData } = useGetSubjectsQuery({ classId }, { skip: !classId });

@@ -1,8 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axiosInstance from "../../api/axiosInstance";
 
-// createAsyncThunk(name, callback) - Redux Toolkit khud "loginUser.pending",
-// "loginUser.fulfilled", "loginUser.rejected" jaise action types bana deta hai
+// createAsyncThunk(name, callback) - Redux Toolkit khud "loginUser.pending", "loginUser.fulfilled", "loginUser.rejected" jaise action types bana deta hai
 export const loginUser = createAsyncThunk("auth/login", async (credentials, { rejectWithValue }) => {
   try {
     const { data } = await axiosInstance.post("/auth/login", credentials);
@@ -26,14 +25,12 @@ export const logoutUser = createAsyncThunk("auth/logout", async () => {
   await axiosInstance.get("/auth/logout");
 });
 
-// Profile picture upload - student/teacher/admin sab apna khud ka avatar
-// update kar sakte hain. Backend: PUT /api/users/:id/avatar (multipart)
+// Profile picture upload - student/teacher/admin sab apna khud ka avatar update kar sakte hain.
 export const updateAvatar = createAsyncThunk("auth/updateAvatar", async ({ userId, file }, { rejectWithValue }) => {
   try {
     const formData = new FormData();
     formData.append("avatar", file);
-    // Content-Type header manually set NAHI karte - browser khud "boundary"
-    // ke saath multipart/form-data set kar deta hai FormData dekh ke
+    // Content-Type header manually set NAHI karte - browser khud "boundary" ke saath multipart/form-data set kar deta hai FormData dekh ke
     const { data } = await axiosInstance.put(`/users/${userId}/avatar`, formData);
     return data.data; // { public_id, url }
   } catch (error) {
@@ -53,7 +50,7 @@ const authSlice = createSlice({
   // extraReducers - dusre slices/thunks ke actions ko yahan "sunte" hain
   extraReducers: (builder) => {
     builder
-      // ---- LOGIN ----
+      // login
       .addCase(loginUser.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -68,7 +65,7 @@ const authSlice = createSlice({
         state.error = action.payload;
         state.isAuthenticated = false;
       })
-      // ---- CHECK AUTH (app load pe "already logged in?" check) ----
+      // check auth (app load pe "already logged in?" check)
       .addCase(checkAuth.pending, (state) => {
         state.loading = true;
       })
@@ -82,13 +79,12 @@ const authSlice = createSlice({
         state.user = null;
         state.isAuthenticated = false;
       })
-      // ---- LOGOUT ----
+      // logout
       .addCase(logoutUser.fulfilled, (state) => {
         state.user = null;
         state.isAuthenticated = false;
       })
-      // ---- UPDATE AVATAR ---- (Topbar mein turant reflect ho jaaye,
-      // bina page reload ya re-login ke)
+      // update avatar (Topbar mein turant reflect ho jaaye, bina page reload ya re-login ke)
       .addCase(updateAvatar.fulfilled, (state, action) => {
         if (state.user) state.user.avatar = action.payload;
       });

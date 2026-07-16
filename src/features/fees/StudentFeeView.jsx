@@ -15,7 +15,7 @@ function StudentFeeView() {
   const [receiptFor, setReceiptFor] = useState(null); // paymentId jiski receipt kholni hai
 
   const { data, isLoading, isError, error } = useGetFeeStatusByStudentQuery(studentId, { skip: !studentId });
-  // FEATURE: payment history - har record ka apna "View Receipt" hai
+  // payment history - har record ka apna "View Receipt" hai
   const { data: historyData, isLoading: historyLoading } = useGetPaymentHistoryQuery(studentId, { skip: !studentId });
 
   return (
@@ -68,7 +68,7 @@ function StudentFeeView() {
             )}
           </div>
 
-          {/* FEATURE: Payment History - har payment ke saath uski Fee Receipt */}
+          {/* Payment History - har payment ke saath uski Fee Receipt */}
           <h3 className="text-sm font-semibold text-slate-500 mt-6 mb-2">Payment History</h3>
           <div className="space-y-3">
             {historyLoading && (

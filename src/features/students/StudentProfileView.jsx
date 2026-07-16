@@ -2,8 +2,6 @@ import { Loader2, AlertTriangle } from "lucide-react";
 import { useGetStudentByIdQuery } from "./studentsApi";
 
 // Read-only profile view - "View" button isko kholta hai.
-// useGetStudentByIdQuery -> GET /api/users/:id, jo { user, profile } deta
-// hai, profile ke andar classId/sectionId/parentId sab POPULATED aate hain.
 function InfoRow({ label, value }) {
   return (
     <div>

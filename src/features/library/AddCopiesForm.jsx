@@ -4,9 +4,6 @@ import FormField, { inputClass } from "../../components/ui/FormField";
 import { useAddBookCopiesMutation } from "./libraryApi";
 
 // "Add Copies" - existing book ki quantity badhane ke liye chhota form.
-// Naya totalCopies/availableCopies overwrite NAHI karta - jitna number
-// dete ho, utne hi copies STOCK MEIN ADD hote hain (currently issued
-// copies untouched rehte hain)
 function AddCopiesForm({ bookId, bookTitle, currentTotal, onClose }) {
   const [count, setCount] = useState(1);
   const [addBookCopies, { isLoading }] = useAddBookCopiesMutation();

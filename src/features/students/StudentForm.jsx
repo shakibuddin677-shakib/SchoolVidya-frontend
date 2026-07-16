@@ -11,9 +11,7 @@ const initialState = {
   parentName: "", parentPhone: "", parentEmail: "", parentOccupation: "",
 };
 
-// "student" row aata hai StudentsList ke list data se (jisme already
-// s.profile.classId/sectionId POPULATED hain) - agar yeh prop diya gaya hai
-// to form EDIT mode mein khulta hai, warna CREATE mode (jaisa pehle tha)
+// "student" row aata hai StudentsList ke list data se (jisme already s.profile.classId/sectionId POPULATED hain) - agar yeh prop diya gaya hai to form EDIT mode
 function buildInitialState(student) {
   if (!student) return initialState;
   return {
@@ -32,8 +30,7 @@ function buildInitialState(student) {
   };
 }
 
-// Matches backend POST /api/users/student (create) aur PUT /api/users/:id
-// (edit) - "student" prop diya hone par yeh dono modes handle karta hai
+// Matches backend POST /api/users/student (create) aur PUT /api/users/:id (edit) - "student" prop diya hone par yeh dono modes handle karta hai
 function StudentForm({ student = null, onClose }) {
   const isEditMode = Boolean(student);
   const [form, setForm] = useState(() => buildInitialState(student));
@@ -62,9 +59,7 @@ function StudentForm({ student = null, onClose }) {
       };
 
       if (isEditMode) {
-        // Backend updateUser: profileUpdates seedha Student.findOneAndUpdate
-        // mein jaate hain - parent yahan update nahi hota, isliye edit mode
-        // mein parent fields bhejte hi nahi (form mein bhi nahi dikhaye)
+        // profileUpdates seedha Student.findOneAndUpdate mein jaate hain - parent yahan update nahi hota, isliye edit mode mein parent fields bhejte hi nahi
         const result = await updateStudent({ id: student._id, ...payload }).unwrap();
         toast.success(result.message || "Student updated");
       } else {

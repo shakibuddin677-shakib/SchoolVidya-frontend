@@ -15,8 +15,7 @@ import { useGetHomeworkBySectionQuery } from "../homework/homeworkApi";
 const today = new Date();
 const todayName = today.toLocaleDateString("en-US", { weekday: "long" });
 
-// Fee type ke naam se best-match icon chunte hain - "Transport" -> Bus,
-// "Mess/Canteen" -> Utensils, waghera. Match na mile to generic Wallet
+// Fee type ke naam se best-match icon chunte hain - "Transport" -> Bus, "Mess/Canteen" -> Utensils, waghera.
 const feeTypeIcon = (feeType = "") => {
   const t = feeType.toLowerCase();
   if (t.includes("transport") || t.includes("bus")) return Bus;
@@ -27,8 +26,7 @@ const feeTypeIcon = (feeType = "") => {
   return Wallet;
 };
 
-// Har row ko ek alag soft color de dete hain (index ke hisaab se cycle) -
-// reference design ki tarah har fee type ka apna icon-circle color
+// Har row ko ek alag soft color de dete hain (index ke hisaab se cycle) - reference design ki tarah har fee type ka apna icon-circle color
 const feeColorPalette = [
   "bg-teal-soft text-teal",
   "bg-marigold-soft text-marigold",
@@ -36,8 +34,7 @@ const feeColorPalette = [
   "bg-slate-100 text-slate-500",
 ];
 
-// Custom tooltip - subject, exam name, marks/maxMarks aur grade sab ek jagah,
-// dashboard ki design language (rounded, soft shadow) follow karta hai
+// Custom tooltip - subject, exam name, marks/maxMarks aur grade sab ek jagah, dashboard ki design language (rounded, soft shadow) follow karta hai
 function PerformanceTooltip({ active, payload }) {
   if (!active || !payload?.length) return null;
   const d = payload[0].payload;

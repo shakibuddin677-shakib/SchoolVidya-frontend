@@ -25,8 +25,7 @@ function StudentResultsView() {
 
   const { data, isLoading, isError, error } = useGetResultsByStudentQuery(studentId, { skip: !studentId });
 
-  // Har result se distinct (published) exams nikaalo - inhi mein se ek
-  // chunke uska poora marksheet + ranking dikhta hai
+  // Har result se distinct (published) exams nikaalo - inhi mein se ek chunke uska poora marksheet + ranking dikhta hai
   const examOptions = useMemo(() => {
     const map = new Map();
     (data?.data || []).forEach((r) => {
@@ -58,10 +57,7 @@ function StudentResultsView() {
   );
   const myRankEntry = rankingData?.data?.find((s) => s.studentId === studentId);
 
-  // BUG FIX: pehle yahan poori lifetime attendance % use ho rahi thi (jo
-  // har exam ke liye same dikhti thi). Ab hum SAARE records fetch karke
-  // (month/year filter nahi diya), sirf SELECTED EXAM ke date-range
-  // (startDate-endDate) tak simit karke % nikaalte hain.
+  // pehle yahan poori lifetime attendance % use ho rahi thi (jo har exam ke liye same dikhti thi).
   const { data: attendanceData } = useGetAttendanceByStudentQuery({ studentId }, { skip: !studentId });
   const attendancePercentage = calculateAttendancePercentageForRange(
     attendanceData?.data,

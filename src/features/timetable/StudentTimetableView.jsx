@@ -7,9 +7,7 @@ import { useGetTimetableBySectionQuery } from "./timetableApi";
 const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 const accents = ["bg-marigold-soft text-marigold", "bg-teal-soft text-teal", "bg-coral-soft text-coral", "bg-slate-100 text-slate-600"];
 
-// Read-only "my class's timetable" - Student ka apna sectionId login/checkAuth
-// response se pehle se milta hai, isliye koi dropdown/selection ki zaroorat
-// nahi - seedha unki apni section ka poora hafta dikh jaata hai.
+// Read-only "my class's timetable" - Student ka apna sectionId login/checkAuth response se pehle se milta hai, isliye koi dropdown/selection ki zaroorat nahi
 function StudentTimetableView() {
   const { user } = useSelector((state) => state.auth);
   const sectionId = user?.profile?.sectionId?._id;

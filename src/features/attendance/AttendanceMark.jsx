@@ -30,9 +30,7 @@ function AttendanceMark() {
   const { data: existingAttendance } = useGetAttendanceBySectionQuery({ sectionId, date }, { skip: !sectionId || !date });
   const [markAttendance, { isLoading: submitting }] = useMarkAttendanceMutation();
 
-  // Jab bhi students ya existing attendance data badle, records state ko
-  // "sync" karo - agar us din ke liye already marks hain, unhe prefill karo,
-  // warna default "present" rakho
+  // students ya existing attendance change hone par records ko sync karo, marks already hain to prefill karo warna default present
   useEffect(() => {
     if (!studentsData?.data) return;
     const initial = {};

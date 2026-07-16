@@ -7,8 +7,7 @@ import { logoutUser } from "../../features/auth/authSlice";
 
 const roleLabels = { admin: "Administrator", teacher: "Teacher", student: "Student" };
 
-// Ab role/userName props se nahi lete - seedha Redux (auth.user) se
-// nikaal lete hain, kyunki wahi "source of truth" hai
+// Ab role/userName props se nahi lete - seedha Redux (auth.user) se nikaal lete hain, kyunki wahi "source of truth" hai
 function DashboardLayout({ children }) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const { user } = useSelector((state) => state.auth);

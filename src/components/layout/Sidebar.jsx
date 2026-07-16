@@ -3,8 +3,7 @@ import { X } from "lucide-react";
 import { navConfig } from "./navConfig";
 import schoolLogo from "../../assets/school-logo.png";
 
-// role: "admin" | "teacher" | "student" - decide karta hai konsa nav dikhega
-// isOpen/onClose: mobile pe drawer control karte hain (desktop pe hamesha visible)
+// role decide karta hai konsa nav dikhega, isOpen/onClose mobile drawer control karte hain
 function Sidebar({ role, isOpen, onClose }) {
   const sections = navConfig[role] || [];
 
@@ -23,13 +22,7 @@ function Sidebar({ role, isOpen, onClose }) {
           transition-transform duration-300 ease-in-out
           ${isOpen ? "translate-x-0" : "-translate-x-full"} md:translate-x-0`}
       >
-        {/* School logo + name - admin/teacher/student teeno dashboards mein
-            yehi ek Sidebar shared hai, isliye yahan change karne se sab jagah
-            apply ho jata hai.
-            BUG FIX: pehle "truncate" tha jo poora naam "SchoolVidya Academy"
-            fixed h-16 (64px) ke andar ADHA kaat deta tha ("School...").
-            Ab height auto (min-h) hai aur text 2 lines tak WRAP ho sakta hai
-            - naam kabhi bhi cut nahi hoga, chahe sidebar collapse/expand ho */}
+        {/* School logo + name - admin/teacher/student teeno dashboards mein yehi ek Sidebar shared hai, isliye yahan change karne se sab jagah apply ho jata hai. */}
         <div className="flex items-start justify-between gap-2 px-5 py-4 min-h-[64px] border-b border-white/10 shrink-0">
           <div className="flex items-center gap-2.5 min-w-0">
             <img src={schoolLogo} alt="School Logo" className="w-10 h-10 rounded-full shrink-0 object-contain" />

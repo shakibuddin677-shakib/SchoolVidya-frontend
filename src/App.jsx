@@ -7,9 +7,7 @@ import { checkAuth } from "./features/auth/authSlice";
 function App() {
   const dispatch = useDispatch();
 
-  // App pehli baar load hote hi ek dafa check karo - agar valid
-  // cookie already hai (jaise page refresh hua), to seedha login
-  // page dikhane ke bajaye user ko logged-in treat karo
+  // App pehli baar load hote hi ek dafa check karo - agar valid cookie already hai (jaise page refresh hua), to seedha login page dikhane ke bajaye user ko
   useEffect(() => {
     dispatch(checkAuth());
   }, [dispatch]);

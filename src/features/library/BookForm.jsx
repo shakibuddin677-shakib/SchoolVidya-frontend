@@ -5,11 +5,7 @@ import { useCreateBookMutation, useUpdateBookMutation } from "./libraryApi";
 
 const initialState = { title: "", author: "", isbn: "", category: "", totalCopies: 1 };
 
-// book prop diya gaya ho to yeh EDIT mode mein chala jaata hai - form
-// prefill ho jaata hai aur updateBook call hota hai (create ki jagah).
-// isbn/totalCopies edit mode mein LOCKED hain - isbn unique identifier hai
-// (badalna nahi chahiye), totalCopies "Add Copies" button se badhta hai
-// taaki availableCopies hamesha sync rahe.
+// book prop diya gaya ho to yeh EDIT mode mein chala jaata hai - form prefill ho jaata hai aur updateBook call hota hai (create ki jagah).
 function BookForm({ book, onClose }) {
   const isEditMode = Boolean(book);
   const [form, setForm] = useState(

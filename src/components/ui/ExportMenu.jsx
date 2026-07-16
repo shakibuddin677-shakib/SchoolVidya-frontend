@@ -1,9 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { Download, FileText, Printer, Loader2 } from "lucide-react";
 
-// Har module list page (Students, Teachers, Parents, Timetable, Library,
-// Notices) mein ek hi "Export" button reuse hota hai - click karne par
-// "Download CSV" aur "Print / Save as PDF" do options milte hain
+// har list page mein reuse hone wala export button, CSV download aur print/PDF dono options deta hai
 function ExportMenu({ onCSV, onPrint, disabled = false, loading = false, label = "Export" }) {
   const [open, setOpen] = useState(false);
   const ref = useRef(null);

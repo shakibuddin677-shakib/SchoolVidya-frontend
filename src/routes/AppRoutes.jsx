@@ -35,8 +35,7 @@ import ActiveNoticesView from "../features/notices/ActiveNoticesView";
 import ReportsPage from "../features/reports/ReportsPage";
 import ProtectedRoute from "./ProtectedRoute";
 
-// Admin ke saare module routes ek jagah - repeat pattern hai isliye
-// yeh array-driven approach code ko chhota rakhta hai
+// Admin ke saare module routes ek jagah - repeat pattern hai isliye yeh array-driven approach code ko chhota rakhta hai
 const adminModules = [
   { path: "/admin/students", element: <StudentsList /> },
   { path: "/admin/teachers", element: <TeachersList /> },

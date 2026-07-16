@@ -6,11 +6,7 @@ import SectionCard from "../../components/ui/SectionCard";
 import { useGetTimetableByTeacherQuery } from "../timetable/timetableApi";
 import { useGetSectionsQuery } from "./sectionsApi";
 
-// "My Classes" - un saari sections ki list jinse yeh Teacher juda hai:
-// (1) jahan wo koi subject padhata hai (Timetable se pata chalta hai)
-// (2) jis section ka wo CLASS TEACHER (homeroom in-charge) hai
-// (TeacherDashboard ke "My Sections" widget wali hi union-logic yahan
-// ek dedicated, poori list wale page ke roop mein hai)
+// un saari sections ki list jinse yeh Teacher juda hai - jahan padhata hai ya jiska class teacher hai
 function MyClassesView() {
   const { user } = useSelector((state) => state.auth);
   const teacherId = user?.profile?._id;

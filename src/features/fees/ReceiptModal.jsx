@@ -4,21 +4,7 @@ import FeeReceipt from "./FeeReceipt";
 import { useGetFeeReceiptQuery } from "./feesApi";
 import { printElement } from "../../utils/exportUtils";
 
-// Alag se apna modal banaya hai (shared <Modal> ki jagah) kyunki receipt ko
-// zyada width chahiye - shared Modal max-w-lg tak hi seemit hai, aur usko
-// change karne se poore app ke baaki modals (forms) affect ho jaate.
-//
-// BUG FIX: pehle "Download Image" html-to-image (canvas screenshot) se
-// banta tha. Tailwind ke default colors (slate-400, slate-50, waghera)
-// OKLCH format mein hote hain jinhe canvas rasterizer sahi se draw nahi
-// kar paata - isliye downloaded image poori tarah SAFED (blank) aati
-// thi, na text na design, chahe mobile ho ya desktop.
-//
-// FIX: ab "Print / Save as PDF" use karte hain - printElement() current
-// page ke stylesheets ko ek hidden iframe mein copy karke asli browser
-// rendering se print karta hai (koi image-conversion nahi). Yeh mobile
-// aur desktop dono par consistently kaam karta hai, aur design bhi
-// bilkul original jaisa hi print hota hai.
+// receipt ko zyada width chahiye isliye alag modal banaya, shared Modal max-w-lg tak hi seemit hai
 function ReceiptModal({ paymentId, onClose }) {
   const receiptRef = useRef(null);
 

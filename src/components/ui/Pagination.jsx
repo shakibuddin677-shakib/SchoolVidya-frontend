@@ -1,7 +1,6 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
-// Backend ka har list endpoint pagination: {total, page, totalPages} bhejta hai -
-// yeh component seedha wahi shape consume karta hai
+// {total, page, totalPages} bhejta hai - yeh component seedha wahi shape consume karta hai
 function Pagination({ page, totalPages, onPageChange }) {
   if (totalPages <= 1) return null;
 

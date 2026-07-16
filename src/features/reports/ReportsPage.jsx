@@ -16,15 +16,12 @@ import {
 } from "./reportsApi";
 
 function ReportsPage() {
-  // NOTE: yeh do filters ALAG-ALAG hain, ek doosre se independent -
-  // Fee Collection card apna filter khud handle karta hai, Exam Performance
-  // apna. "" matlab "Overall" (sab classes milaakar)
+  // yeh do filters ALAG-ALAG hain, ek doosre se independent - Fee Collection card apna filter khud handle karta hai, Exam Performance apna.
   const [feeClassId, setFeeClassId] = useState("");
   const [examClassId, setExamClassId] = useState("");
 
   const { data: statsData, isLoading: statsLoading } = useGetDashboardStatsQuery();
-  // Attendance yahan hamesha "Overall" (sab classes) rehta hai - iske liye
-  // filter nahi maanga gaya, isliye no classId
+  // Attendance yahan hamesha "Overall" (sab classes) rehta hai - iske liye filter nahi maanga gaya, isliye no classId
   const { data: attendanceData, isLoading: attLoading } = useGetAttendanceReportQuery();
   const { data: feeData, isLoading: feeLoading } = useGetFeeCollectionReportQuery(feeClassId || undefined);
   const { data: examData, isLoading: examLoading } = useGetExamPerformanceReportQuery(examClassId || undefined);

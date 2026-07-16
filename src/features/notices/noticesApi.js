@@ -2,12 +2,12 @@ import { apiSlice } from "../../api/apiSlice";
 
 export const noticesApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    // Matches backend: GET /api/notices/active (role-based + non-expired)
+    // GET /api/notices/active (role-based + non-expired)
     getActiveNotices: builder.query({
       query: () => "/notices/active",
       providesTags: [{ type: "Notice", id: "ACTIVE" }],
     }),
-    // Matches backend: GET /api/notices (admin - all, including expired)
+    // GET /api/notices (admin - all, including expired)
     getAllNotices: builder.query({
       query: () => "/notices",
       providesTags: (result) =>

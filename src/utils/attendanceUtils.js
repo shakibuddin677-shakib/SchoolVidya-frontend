@@ -1,12 +1,4 @@
-// BUG FIX: Marksheet har exam ke liye SAME attendance % dikha raha tha,
-// kyunki StudentResultsView/MarksheetView student ki POORI lifetime
-// attendance fetch kar rahe the (koi date-range filter nahi) - chahe
-// "Unit Test 1" dekho ya "Annual Exam", number hamesha same aata tha.
-//
-// Yeh function attendance records ko sirf EXAM KE PERIOD (startDate-endDate)
-// tak seemit karke % nikalta hai - backend (attendance.controller.js ka
-// getAttendanceByStudent) jaisi hi weighting: present/late = poora din,
-// halfday = aadha din.
+// Marksheet har exam ke liye SAME attendance % dikha raha tha, kyunki StudentResultsView/MarksheetView student ki POORI lifetime attendance fetch kar rahe the
 export function calculateAttendancePercentageForRange(records = [], startDate, endDate) {
   if (!startDate || !endDate) return null;
 

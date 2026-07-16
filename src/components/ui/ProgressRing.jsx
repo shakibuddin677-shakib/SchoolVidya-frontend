@@ -1,5 +1,4 @@
-// SVG-based circular progress ring - recharts jaisi heavy library ke bina
-// (Attendance % dikhane ke liye) - lightweight aur fully customizable
+// SVG-based circular progress ring - recharts jaisi heavy library ke bina (Attendance % dikhane ke liye) - lightweight aur fully customizable
 function ProgressRing({ percentage, size = 140, strokeWidth = 14, color = "#2FB8AC", trackColor = "#E5E7EB", label, value }) {
   const radius = (size - strokeWidth) / 2;
   const circumference = 2 * Math.PI * radius;

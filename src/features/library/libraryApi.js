@@ -2,7 +2,7 @@ import { apiSlice } from "../../api/apiSlice";
 
 export const libraryApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    // ---- Book (catalog) ----
+    // Book (catalog)
     getBooks: builder.query({
       query: ({ page = 1, limit = 20, search = "" } = {}) =>
         `/books?page=${page}&limit=${limit}${search ? `&search=${search}` : ""}`,
@@ -15,15 +15,12 @@ export const libraryApi = apiSlice.injectEndpoints({
       query: (body) => ({ url: "/books", method: "POST", body }),
       invalidatesTags: [{ type: "Book", id: "LIST" }],
     }),
-    // Matches backend: PUT /api/books/:id { title, author, category }
-    // Sirf title/author/category edit hote hain - totalCopies "Add Copies"
-    // se, aur isbn kabhi change nahi hota (unique identifier hai)
+    // sirf title/author/category edit hote hain, totalCopies "Add Copies" se badhta hai aur isbn kabhi change nahi hota
     updateBook: builder.mutation({
       query: ({ id, ...body }) => ({ url: `/books/${id}`, method: "PUT", body }),
       invalidatesTags: [{ type: "Book", id: "LIST" }],
     }),
-    // Matches backend: PATCH /api/books/:id/add-copies { count }
-    // Existing book ki stock badhane ke liye (naye copies shelf pe aaye)
+    // PATCH /api/books/:id/add-copies - existing book ki stock badhane ke liye
     addBookCopies: builder.mutation({
       query: ({ id, count }) => ({ url: `/books/${id}/add-copies`, method: "PATCH", body: { count } }),
       invalidatesTags: [{ type: "Book", id: "LIST" }],
@@ -33,23 +30,22 @@ export const libraryApi = apiSlice.injectEndpoints({
       invalidatesTags: [{ type: "Book", id: "LIST" }],
     }),
 
-    // ---- BookIssue (transaction) ----
-    // Matches backend: POST /api/book-issues/issue
+    // POST /api/book-issues/issue
     issueBook: builder.mutation({
       query: (body) => ({ url: "/book-issues/issue", method: "POST", body }),
       invalidatesTags: [{ type: "Book", id: "LIST" }, { type: "Book", id: "ISSUES" }],
     }),
-    // Matches backend: PUT /api/book-issues/return/:id
+    // PUT /api/book-issues/return/:id
     returnBook: builder.mutation({
       query: (id) => ({ url: `/book-issues/return/${id}`, method: "PUT" }),
       invalidatesTags: [{ type: "Book", id: "LIST" }, { type: "Book", id: "ISSUES" }],
     }),
-    // Matches backend: GET /api/book-issues?status=
+    // GET /api/book-issues?status=
     getAllIssues: builder.query({
       query: ({ status } = {}) => `/book-issues${status ? `?status=${status}` : ""}`,
       providesTags: [{ type: "Book", id: "ISSUES" }],
     }),
-    // Matches backend: GET /api/book-issues/student/:studentId
+    // GET /api/book-issues/student/:studentId
     getIssuesByStudent: builder.query({
       query: (studentId) => `/book-issues/student/${studentId}`,
       providesTags: [{ type: "Book", id: "STUDENT_ISSUES" }],

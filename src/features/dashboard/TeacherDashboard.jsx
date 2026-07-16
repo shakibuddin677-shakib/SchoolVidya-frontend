@@ -9,8 +9,7 @@ import { useGetExamPerformanceReportQuery, useGetStudentProgressQuery } from "..
 
 const todayName = new Date().toLocaleDateString("en-US", { weekday: "long" });
 
-// Percentage ke hisaab se pill ka color - poore dashboard mein consistent
-// teal/marigold/coral scale follow karta hai
+// Percentage ke hisaab se pill ka color - poore dashboard mein consistent teal/marigold/coral scale follow karta hai
 const scoreColor = (pct) =>
   pct >= 90 ? "bg-teal text-white" : pct >= 75 ? "bg-marigold text-ink" : pct >= 50 ? "bg-slate-400 text-white" : "bg-coral text-white";
 
@@ -21,14 +20,7 @@ function TeacherDashboard() {
   const teacherId = user?.profile?._id;
 
   const { data: timetableData, isLoading: ttLoading } = useGetTimetableByTeacherQuery(teacherId, { skip: !teacherId });
-  // BUG FIX: "My Sections" pehle SIRF timetable se derive hota tha - agar
-  // teacher ka timetable abhi khaali hai (koi period schedule nahi hua),
-  // to widget "No sections assigned yet" dikhata tha, CHAHE teacher us
-  // section ka CLASS TEACHER (homeroom) already assigned ho
-  // (Section.classTeacherId - yeh field User ko refer karta hai).
-  // Fix: sab sections fetch karo, aur dono jagah se union banao -
-  // (1) jin sections mein yeh subject padhata hai (timetable se)
-  // (2) jin sections ka yeh class-teacher hai (classTeacherId se)
+  // "My Sections" pehle sirf timetable se derive hota tha, ab class teacher wale sections bhi union mein add karte hain
   const { data: sectionsData } = useGetSectionsQuery();
   const { data: perfData } = useGetExamPerformanceReportQuery();
 
@@ -51,15 +43,13 @@ function TeacherDashboard() {
   const mySubjectIds = (user?.profile?.subjects || []).map((s) => s._id || s);
   const mySubjectPerformance = (perfData?.data || []).filter((p) => mySubjectIds.includes(p._id));
 
-  // Student Progress + Best Performers dono isi ek endpoint se aate hain -
-  // sirf teacher ke apne sections tak seemit (mySectionIds)
+  // Student Progress + Best Performers dono isi ek endpoint se aate hain - sirf teacher ke apne sections tak seemit (mySectionIds)
   const { data: progressData, isLoading: progressLoading } = useGetStudentProgressQuery(mySectionIds, {
     skip: mySectionIds.length === 0,
   });
   const studentProgress = progressData?.data || [];
 
-  // "Best Performers" - section-wise average (har section ke students ka
-  // overall average nikaal ke, sabse zyada performing sections top pe)
+  // "Best Performers" - section-wise average (har section ke students ka overall average nikaal ke, sabse zyada performing sections top pe)
   const sectionPerformance = useMemo(() => {
     const bySection = new Map();
     studentProgress.forEach((s) => {

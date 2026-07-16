@@ -1,7 +1,6 @@
 import { X } from "lucide-react";
 
-// Har module (Student/Teacher/Parent/Class...) ka Add/Edit form
-// isi Modal ke andar khulega - consistent overlay + close button + sizing
+// Har module (Student/Teacher/Parent/Class...) ka Add/Edit form isi Modal ke andar khulega - consistent overlay + close button + sizing
 function Modal({ title, isOpen, onClose, children }) {
   if (!isOpen) return null;
 

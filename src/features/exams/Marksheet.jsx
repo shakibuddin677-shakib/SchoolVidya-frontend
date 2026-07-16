@@ -1,10 +1,6 @@
-// Pure presentational Marksheet - koi data-fetching nahi karta, sirf props
-// se milा hua data render karta hai. Isi component ko do jagah use karte hain:
-// 1. MarksheetView.jsx - standalone printable full page
-// 2. StudentResultsView.jsx - "My Results" page ke andar seedha inline dikhta hai
+// Pure presentational Marksheet - koi data-fetching nahi karta, sirf props se milा hua data render karta hai.
 
-// App ke actual grading system se match karta hai (Result model ka
-// pre-save hook — models/result.model.js)
+// App ke actual grading system se match karta hai (Result model ka pre-save hook — models/result.model.js)
 const gradeScale = [
   { range: "90 - 100", grade: "A+", remark: "Outstanding" },
   { range: "75 - 89", grade: "A", remark: "Excellent" },

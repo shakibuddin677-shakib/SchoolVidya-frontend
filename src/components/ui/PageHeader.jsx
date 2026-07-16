@@ -1,6 +1,4 @@
-// Har module list page (Students, Teachers, Classes, ...) isi header
-// se shuru hoga - title, breadcrumb, aur right-side action buttons
-// (jo har page pe alag hote hain, isliye "actions" as children/prop)
+// Har module list page (Students, Teachers, Classes, ...) isi header se shuru hoga - title, breadcrumb, aur right-side action buttons
 function PageHeader({ title, breadcrumb, actions }) {
   return (
     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">

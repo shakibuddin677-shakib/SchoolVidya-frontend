@@ -4,7 +4,7 @@ import { Mail, Loader2, ArrowLeft, MailCheck, KeyRound } from "lucide-react";
 import toast from "react-hot-toast";
 import axiosInstance from "../../api/axiosInstance";
 import schoolLogo from "../../assets/school-logo.png";
-import heroImage from "../../assets/hero.jpg";
+import heroImage from "../../assets/hero.png";
 
 function ForgotPasswordPage() {
   const [email, setEmail] = useState("");
@@ -15,7 +15,7 @@ function ForgotPasswordPage() {
     e.preventDefault();
     setLoading(true);
     try {
-      // Matches backend: POST /api/auth/forgot-password { email }
+      // POST /api/auth/forgot-password { email }
       await axiosInstance.post("/auth/forgot-password", { email });
       setSent(true);
     } catch (error) {
