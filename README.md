@@ -123,7 +123,7 @@ SchoolVidya is a full-stack ERP that digitizes day-to-day school operations — 
 | **Media** | Cloudinary, Multer, streamifier |
 | **Email** | Nodemailer + Brevo SMTP |
 | **Security** | Helmet, CORS, cookie-parser |
-| **Deployment** | Vercel (frontend), Render(Backend) |
+| **Deployment** | Vercel (frontend), Render (Backend) |
 
 <br/>
 
