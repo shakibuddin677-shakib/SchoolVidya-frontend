@@ -148,8 +148,6 @@ SchoolVidya is a full-stack ERP that digitizes day-to-day school operations — 
 
 </div>
 
-> 📝 Drop your screenshots into a `screenshots/` folder at the project root using the filenames above — they'll render automatically.
-
 <br/>
 
 ## 📁 Project Structure
@@ -208,7 +206,7 @@ npm install
 
 **Frontend**
 ```bash
-cd ../frontend
+cd frontend
 npm install
 ```
 
